@@ -13,13 +13,17 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 // Upload files route
-router.post("/fileanalyse", upload.single('file'), (req, res) => {
+router.post("/fileanalyse", upload.single('upfile'), (req, res) => {
     const uploadedFile = req.file;
     if (!uploadedFile) {
         return res.status(400).json({error: 'No file was uploaded'});
     }
 
-    res.send('File uploaded!')
+    res.json({
+		name: uploadedFile.originalname, 
+		type: uploadedFile.mimetype, 
+		size: uploadedFile.size}
+	)
 })
 
 module.exports = router;
